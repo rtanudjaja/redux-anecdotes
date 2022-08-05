@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addAnecdote } from '../reducers/anecdoteReducer'
+import { addNotification, clearNotification } from '../reducers/notificationReducer'
 
 export const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,8 @@ export const AnecdoteForm = () => {
     if(!textInput.trim()) {
     } else {
       dispatch(addAnecdote(textInput))
+      dispatch(addNotification(`you created '${textInput}'`))
+      setTimeout(() => dispatch(clearNotification()), 5000)
       setTextInput('')
     }
   }
