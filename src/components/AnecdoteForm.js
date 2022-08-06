@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { createNew } from '../services/anecdotes'
 import { addAnecdote } from '../reducers/anecdoteReducer'
 import { addNotification, clearNotification } from '../reducers/notificationReducer'
 
@@ -11,11 +12,12 @@ export const AnecdoteForm = () => {
     setTextInput(event.target.value)
   }
 
-  const add = (e) => {
-    e.preventDefault()
+  const add = async (event) => {
+    event.preventDefault()
     if(!textInput.trim()) {
     } else {
-      dispatch(addAnecdote(textInput))
+      const newNote = await createNew(textInput)
+      dispatch(addAnecdote(newNote))
       dispatch(addNotification(`you created '${textInput}'`))
       setTimeout(() => dispatch(clearNotification()), 5000)
       setTextInput('')
