@@ -1,10 +1,9 @@
+import { connect } from 'react-redux'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { setNotificationWithTimeout } from '../reducers/notificationReducer'
 
-export const AnecdoteForm = () => {
-  const dispatch = useDispatch()
+export const AnecdoteForm = (props) => {
   const [textInput, setTextInput] = useState('')
 
   const handleChange = (event) => {
@@ -15,8 +14,8 @@ export const AnecdoteForm = () => {
     event.preventDefault()
     if(!textInput.trim()) {
     } else {
-      dispatch(createAnecdote(textInput))
-      dispatch(setNotificationWithTimeout(`new anecdote '${textInput}'`, 5000))
+      props.createAnecdote(textInput)
+      props.setNotificationWithTimeout(`new anecdote '${textInput}'`, 5000)
       setTextInput('')
     }
   }
@@ -32,4 +31,8 @@ export const AnecdoteForm = () => {
   )
 }
 
-export default AnecdoteForm
+const ConnectedAnnecdoteForm = connect(
+  null,
+  { createAnecdote, setNotificationWithTimeout }
+)(AnecdoteForm)
+export default ConnectedAnnecdoteForm
